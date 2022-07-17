@@ -39,7 +39,7 @@ int atoi(char s)
     return result;
 }
 
-void set_win_information(string & HP, string & maxHP, string & LV, string & EXP, int exp)
+void set_win_information(string & HP, string & maxHP, string & LV, string & EXP, int exp, string & TS, char event)
 {
     EXP = to_string(atoi(EXP) + exp);
     if (atoi(LV) >= 10 && atoi(EXP) >= 100)
@@ -49,51 +49,103 @@ void set_win_information(string & HP, string & maxHP, string & LV, string & EXP,
     }
     else if (atoi(EXP) >= 100)
     {
-        EXP = to_string(atoi(EXP) - 100);
-        LV = to_string(atoi(LV) + 1);
-        maxHP = to_string(atoi(maxHP) + 50);
-        HP = to_string(atoi(HP) + 10);
-        if (atoi(HP) > atoi(maxHP)) HP = maxHP;
-        if (atoi(HP) > 999) HP = to_string(999);
-        if (atoi(maxHP) > 999) maxHP = to_string(999);
+        while (atoi(EXP) >= 100)
+        {
+            EXP = to_string(atoi(EXP) - 100);
+            LV = to_string(atoi(LV) + 1);
+            maxHP = to_string(atoi(maxHP) + 50);
+            HP = to_string(atoi(HP) + 10);
+            if (atoi(HP) > atoi(maxHP)) HP = maxHP;
+            if (atoi(HP) > 999) HP = to_string(999);
+            if (atoi(maxHP) > 999) maxHP = to_string(999);
+        }
+        
     }
+
+    if (event == '6') TS = to_string(atoi(TS) + 1);
+    
+
 }
 
-void set_defeat_information(string & HP, string maxHP, int LVo, float baseDamage, string & TS)
+void set_defeat_information(string & HP, string maxHP, int LVo, float baseDamage, string & TS, char event, int negative_damage)
 {
-    int HP_temp = int(atoi(HP) * 1.0 - (baseDamage * LVo * 10));
-    HP = to_string(int(atoi(HP) * 1.0 - (baseDamage * LVo * 10)));
-    // cout << HP << endl;
-    if (HP_temp <= 0)
+    if (event > '0' && event < '6')
     {
-        if (atoi(TS) == 0)
+        int HP_temp = int(atoi(HP) * 1.0f - (baseDamage * LVo * 10));
+        HP = to_string(int(atoi(HP) * 1.0f - (baseDamage * LVo * 10)));
+        // cout << HP << endl;
+        if (HP_temp <= 0)
         {
-            HP = to_string(0);
+            if (atoi(TS) == 0)
+            {
+                HP = to_string(0);
+            }
+            else
+            {
+                TS = to_string(atoi(TS) - 1);
+                HP = maxHP;
+            }
+            
+        }
+    }
+    else if (event == '6')
+    {
+        if (atoi(HP) < 100)
+        {
+            if (atoi(TS) == 0)
+            {
+                HP = to_string(0);
+            }
+            else
+            {
+                TS = to_string(atoi(TS) - 1);
+                HP = maxHP;
+            }
         }
         else
         {
-            TS = to_string(atoi(TS) - 1);
-            HP = maxHP;
+            if (negative_damage < 100) 
+            {
+                int HP_temp = int(atoi(HP) * 1.0f - (atoi(HP) * 1.0f * (100 - negative_damage) / 100));
+                // cout << "check HP khi thua tai sk 6 khi negative damage < 100: " << (atoi(HP) * 1.0f - (atoi(HP) * 1.0f * (100 - negative_damage) / 100)) << endl;
+                HP = to_string(int(atoi(HP) * 1.0f - (atoi(HP) * 1.0f * (100 - negative_damage) / 100)));
+
+                if (HP_temp <= 0)
+                {
+                    if (atoi(TS) == 0)
+                    {
+                        HP = to_string(0);
+                    }
+                    else
+                    {
+                        TS = to_string(atoi(TS) - 1);
+                        HP = maxHP;
+                    }
+                    
+                }
+            }
         }
         
     }
     
+    
+    
 }
 
-void set_information(string & HP, string & LV, string & EXP, string & TS, string & maxHP, int LVo, float baseDamage, int exp)
+void set_information(string & HP, string & LV, string & EXP, string & TS, string & maxHP, int LVo, float baseDamage, int exp, char event)
 {
     if (atoi(LV) > LVo)
     {
-        set_win_information(HP, maxHP, LV, EXP, exp);
+        set_win_information(HP, maxHP, LV, EXP, exp, TS, event);
     }
     else if (atoi(LV) < LVo)
     {
-        set_defeat_information(HP, maxHP, LVo, baseDamage, TS);
+        set_defeat_information(HP, maxHP, LVo, baseDamage, TS, event, 0);
     }
     else
     {
         exp /= 2;
-        set_win_information(HP, maxHP, LV, EXP, exp);
+        set_win_information(HP, maxHP, LV, EXP, exp, TS, event);
     }
 }
 
@@ -101,6 +153,138 @@ int set_LVo(int count_event)
 {
     int b = count_event % 10;
     int result = count_event > 6 ? (b > 5 ? b : 5) : b;
+    return result;
+}
+
+void my_str_to_lower(string & s) // bjen chuoi hoa thanh chuoi thuong 
+{
+    int length = s.length();
+    for (int i = 0; i < length; i++)
+    {
+        if (s[i] >= 'A' && s[i] <= 'Z')
+        {
+            s[i] = char(int(s[i]) + 32);
+        }   
+    }
+    
+}
+
+int count_attack_work(string s)
+{
+    int result = 0;
+    int length = s.length();
+    for (int i = 0; i < length; i++)
+    {
+        if (s[i] == 'a')
+        {
+            for (int j = i + 1; j < length; j++)
+            {
+                if (s[j] == 't')
+                {
+                    for (int k = j + 1; k < length; k++)
+                    {
+                        if (s[k] == 't')
+                        {
+                            for (int m = k + 1; m < length; m++)
+                            {
+                                if (s[m] == 'a')
+                                {
+                                    for (int n = m + 1; n < length; n++)
+                                    {
+                                        if (s[n] == 'c')
+                                        {
+                                            for (int t = n + 1; t < length; t++)
+                                            {
+                                                if (s[t] == 'k')
+                                                {
+                                                    result++;
+                                                }
+                                                
+                                            }
+                                            
+                                        }
+                                        
+                                    }
+                                    
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    return result;
+}
+
+int count_defense_work(string s)
+{
+    int result = 0;
+    int length = s.length();
+    for (int i = 0; i < length; i++)
+    {
+        if (s[i] == 'd')
+        {
+            for (int j = i + 1; j < length; j++)
+            {
+                if (s[j] == 'e')
+                {
+                    for (int k = j + 1; k < length; k++)
+                    {
+                        if (s[k] == 'f')
+                        {
+                            for (int m = k + 1; m < length; m++)
+                            {
+                                if (s[m] == 'e')
+                                {
+                                    for (int n = m + 1; n < length; n++)
+                                    {
+                                        if (s[n] == 'n')
+                                        {
+                                            for (int t = n + 1; t < length; t++)
+                                            {
+                                                if (s[t] == 's')
+                                                {
+                                                    for (int v = t + 1; v < length; v++)
+                                                    {
+                                                        if (s[v] == 'e')
+                                                        {
+                                                            result++;
+                                                        }
+                                                        
+                                                    }
+                                                
+                                                }
+                                                
+                                            }
+                                            
+                                        }
+                                        
+                                    }
+                                    
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
     return result;
 }
 
@@ -115,9 +299,10 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
     int index = 1;
 
     // 1-->5 events
-    while (events[index] != '!' && events[index] != '6') // lam sao do chi lay cac ma su kien la 1-->5
-                                            //  dk nay chua chuan cho cac truong hop 10.11.12.13.14.15
-                                            // can sua chua lai sau
+    while (events[index] != '!' 
+           && events[index] < '6')  // lam sao do chi lay cac ma su kien la 1-->5
+                                    //  dk nay chua chuan cho cac truong hop 10.11.12.13.14.15
+                                    // can sua chua lai sau
     {                                           
         if (events[index] != '#')
         {
@@ -131,7 +316,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                     float baseDamage = 1.5f;
                     int exp = 10;
 
-                    set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp);
+                    set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index]);
       
                 }
                 else if (atoi(events[index]) == 2)
@@ -139,7 +324,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                     float baseDamage = 2.5f;
                     int exp = 20;
                     
-                    set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp);
+                    set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index]);
                     
                 }
                 else if (atoi(events[index]) == 3)
@@ -147,21 +332,21 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                     float baseDamage = 4.5f;
                     int exp = 40;
 
-                    set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp);
+                    set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index]);
                     
                 }
                 else if (atoi(events[index]) == 4)
                 {
                     float baseDamage = 7.5f;
                     int exp = 50;
-                    set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp);
+                    set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index]);
                     
                 }
                 else if (atoi(events[index]) == 5)
                 {
                     float baseDamage = 9.5f;
                     int exp = 70;
-                    set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp);
+                    set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index]);
                     
                 }
 
@@ -189,8 +374,33 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
         // sau do dem so lan xuat hien chuoi attack / defense
         // sau do cap nhat thong tjn theo yeu cau
 
-        
+        // cout << "day la khuc kiem tra ham my_str_to_lower" << endl;
+        my_str_to_lower(magic_work);
+        // cout << magic_work << endl;
 
+        // cout << "check count_attack_work() function: " << count_attack_work(magic_work) << endl;
+        // cout << "check count_defense_work() function: " << count_defense_work(magic_work) << endl;
+
+        int fx = (count_event + magic_work.length()) % 100; // create fx function
+        int win_percent = count_attack_work(magic_work) * 10;
+        int negative_damage = 10 * count_defense_work(magic_work);
+
+        // cout << "day la fx: " << fx << endl;
+        // cout << "day la win_percent: " << win_percent << endl;
+        // cout << "day la negative damage: " << negative_damage << endl;
+
+        if (win_percent > fx)
+        {
+            set_win_information(HP, maxHP, LV, EXP, 200, TS, '6');
+            
+        }
+        else
+        {
+            // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+            set_defeat_information(HP, maxHP, LVo, 0, TS, '6', negative_damage);
+            if (atoi(HP) == 0) return result = -1;
+            
+        }
     }
     
     
