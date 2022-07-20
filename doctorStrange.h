@@ -414,37 +414,82 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
     bool invalid_coat = false;
     bool coat_flag = false;
 
+    bool real_wong = false;
+    bool fake_wong = false;
+    bool is_first_meet = true;
+    int count_real_wong_help = 0;
+    int count_fake_wong_fight = 0;
+    int count_fake_wong = 0;
+    
+    bool dangerous_chemical = false;
     for (; index < length - 1; )
     {
         // 1-->5 events
-        while (events[index] != '!' 
-                && events[index] < '6'
-                // && events[index + 1] != '0'
-                // && events[index + 1] != '1'
-                // && events[index + 1] != '2'
-                // && events[index + 1] != '3'
-                // && events[index + 1] != '4'
-                // && events[index + 1] != '5'
-                )                       // lam sao do chi lay cac ma su kien la 1-->5
-                                        //  dk nay chua chuan cho cac truong hop 10.11.12.13.14.15
-                                        // can sua chua lai sau
-        {                                           
-            if (events[index] != '#')
-            {
-                count_event++;
-                int LVo = set_LVo(count_event);
+        // while (events[index] != '!' 
+        //         && events[index] < '6'
+        //         // && events[index + 1] == '#'
+        //         )                       // lam sao do chi lay cac ma su kien la 1-->5
+        //                                 //  dk nay chua chuan cho cac truong hop 10.11.12.13.14.15
+        //                                 // can sua chua lai sau
+        // {                                           
+        //     if (events[index] != '#')
+        //     {
+        //         count_event++;
+        //         int LVo = set_LVo(count_event);
 
                 // if (count_event < 6)
                 // {
-                    if (atoi(events[index]) == 1)
+                    if (atoi(events[index]) == 1 && events[index + 1] == '#')
                     {
+                        count_event++;
+                        int LVo = set_LVo(count_event);
                         float baseDamage = 1.5f;
                         int exp = 10;
                         int negative_damage = 0;
                         int prime = find_prime_big_than_hp(HP);
-                        set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index],
-                                        negative_damage, coat_flag, invalid_coat, count_event,
-                                        count_defeat, prime);
+                        if (real_wong)
+                        {
+                            set_win_information(HP, maxHP, LV, EXP, exp, TS, events[index]);
+                            count_real_wong_help++;
+                            if (count_real_wong_help == 3)
+                            {
+                                real_wong = false;
+                            }
+                        }
+                        else if (fake_wong)
+                        {
+                            int pre_TS = atoi(TS);
+                            set_defeat_information(HP, maxHP, LVo, baseDamage, TS, events[index], 
+                                                    negative_damage, coat_flag, invalid_coat, count_event,
+                                                    count_defeat, prime);
+                            count_fake_wong_fight++;
+                            
+                            if (atoi(TS) == (pre_TS - 1))
+                            {
+                                fake_wong = false;
+                                count_fake_wong--;
+                            }
+                            
+                            if (count_fake_wong_fight == 3)
+                            {
+                                fake_wong = false;
+                            }
+                            
+                        }
+                        else
+                        {
+                            set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index],
+                                            negative_damage, coat_flag, invalid_coat, count_event,
+                                            count_defeat, prime);
+
+                            if (fake_wong && atoi(LV) > 7)
+                            {
+                                fake_wong = false;
+                                count_fake_wong--;
+                            }
+                            
+                        }
+                        
                         cout << "ket qua sau cac su kien thu : " << count_event << endl;
                         cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
@@ -456,17 +501,57 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                             LV = to_string(1);
                         }
                         
-        
+                        index += 2;
                     }
                     else if (atoi(events[index]) == 2)
                     {
+                        count_event++;
+                        int LVo = set_LVo(count_event);
                         float baseDamage = 2.5f;
                         int exp = 20;
                         int negative_damage = 0;
                         int prime = find_prime_big_than_hp(HP);
-                        set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index],
-                                        negative_damage, coat_flag, invalid_coat, count_event,
-                                        count_defeat, prime);
+                        if (real_wong)
+                        {
+                            set_win_information(HP, maxHP, LV, EXP, exp, TS, events[index]);
+                            count_real_wong_help++;
+                            if (count_real_wong_help == 3)
+                            {
+                                real_wong = false;
+                            }
+                        }
+                        else if (fake_wong)
+                        {
+                            int pre_TS = atoi(TS);
+                            set_defeat_information(HP, maxHP, LVo, baseDamage, TS, events[index], 
+                                                    negative_damage, coat_flag, invalid_coat, count_event,
+                                                    count_defeat, prime);
+                            count_fake_wong_fight++;
+                            
+                            if (atoi(TS) == (pre_TS - 1))
+                            {
+                                fake_wong = false;
+                                count_fake_wong--;
+                            }
+                            
+                            if (count_fake_wong_fight == 3)
+                            {
+                                fake_wong = false;
+                            }
+                            
+                        }
+                        else
+                        {
+                            set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index],
+                                            negative_damage, coat_flag, invalid_coat, count_event,
+                                            count_defeat, prime);
+                            if (fake_wong && atoi(LV) > 7)
+                            {
+                                fake_wong = false;
+                                count_fake_wong--;
+                            }
+                        }
+                        
                         cout << "ket qua sau cac su kien thu : " << count_event << endl;
                         cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
@@ -478,36 +563,123 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                             LV = to_string(1);
                         }
                         
+                        index += 2;
                     }
                     else if (atoi(events[index]) == 3)
                     {
+                        count_event++;
+                        int LVo = set_LVo(count_event);
                         float baseDamage = 4.5f;
                         int exp = 40;
                         int negative_damage = 0;
                         int prime = find_prime_big_than_hp(HP);
-                        set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index],
-                                        negative_damage, coat_flag, invalid_coat, count_event,
-                                        count_defeat, prime);
+                        
+                        if (real_wong)
+                        {
+                            set_win_information(HP, maxHP, LV, EXP, exp, TS, events[index]);
+                            count_real_wong_help++;
+                            if (count_real_wong_help == 3)
+                            {
+                                real_wong = false;
+                            }
+                        }
+                        else if (fake_wong)
+                        {
+                            int pre_TS = atoi(TS);
+                            set_defeat_information(HP, maxHP, LVo, baseDamage, TS, events[index], 
+                                                    negative_damage, coat_flag, invalid_coat, count_event,
+                                                    count_defeat, prime);
+                            count_fake_wong_fight++;
+                            
+                            if (atoi(TS) == (pre_TS - 1))
+                            {
+                                fake_wong = false;
+                                count_fake_wong--;
+                            }
+                            
+                            if (count_fake_wong_fight == 3)
+                            {
+                                fake_wong = false;
+                            }
+                            
+                        }
+                        else
+                        {
+                            set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index],
+                                            negative_damage, coat_flag, invalid_coat, count_event,
+                                            count_defeat, prime);
+                            if (fake_wong && atoi(LV) > 7)
+                            {
+                                fake_wong = false;
+                                count_fake_wong--;
+                            }
+                        }
+                        
                         cout << "ket qua sau cac su kien thu : " << count_event << endl;
                         cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+                        
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
                         }
+                        
                         if (atoi(LV) < 3 && !invalid_coat)
                         {
                             LV = to_string(1);
                         }
+
+                        index += 2;
                     }
                     else if (atoi(events[index]) == 4)
                     {
+                        count_event++;
+                        int LVo = set_LVo(count_event);
                         float baseDamage = 7.5f;
                         int exp = 50;
                         int negative_damage = 0;
                         int prime = find_prime_big_than_hp(HP);
-                        set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index],
-                                        negative_damage, coat_flag, invalid_coat, count_event,
-                                        count_defeat, prime);
+                        
+                        if (real_wong)
+                        {
+                            set_win_information(HP, maxHP, LV, EXP, exp, TS, events[index]);
+                            count_real_wong_help++;
+                            if (count_real_wong_help == 3)
+                            {
+                                real_wong = false;
+                            }
+                        }
+                        else if (fake_wong)
+                        {
+                            int pre_TS = atoi(TS);
+                            set_defeat_information(HP, maxHP, LVo, baseDamage, TS, events[index], 
+                                                    negative_damage, coat_flag, invalid_coat, count_event,
+                                                    count_defeat, prime);
+                            count_fake_wong_fight++;
+                            
+                            if (atoi(TS) == (pre_TS - 1))
+                            {
+                                fake_wong = false;
+                                count_fake_wong--;
+                            }
+                            
+                            if (count_fake_wong_fight == 3)
+                            {
+                                fake_wong = false;
+                            }
+                            
+                        }
+                        else
+                        {
+                            set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index],
+                                            negative_damage, coat_flag, invalid_coat, count_event,
+                                            count_defeat, prime);
+                            if (fake_wong && atoi(LV) > 7)
+                            {
+                                fake_wong = false;
+                                count_fake_wong--;
+                            }
+                        }
+
                         cout << "ket qua sau cac su kien thu : " << count_event << endl;
                         cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
@@ -518,16 +690,58 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         {
                             LV = to_string(1);
                         }
+
+                        index += 2;
                     }
                     else if (atoi(events[index]) == 5)
                     {
+                        count_event++;
+                        int LVo = set_LVo(count_event);
                         float baseDamage = 9.5f;
                         int exp = 70;
                         int negative_damage = 0;
                         int prime = find_prime_big_than_hp(HP);
-                        set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index],
-                                        negative_damage, coat_flag, invalid_coat, count_event,
-                                        count_defeat, prime);
+                        if (real_wong)
+                        {
+                            set_win_information(HP, maxHP, LV, EXP, exp, TS, events[index]);
+                            count_real_wong_help++;
+                            if (count_real_wong_help == 3)
+                            {
+                                real_wong = false;
+                            }
+                        }
+                        else if (fake_wong)
+                        {
+                            int pre_TS = atoi(TS);
+                            set_defeat_information(HP, maxHP, LVo, baseDamage, TS, events[index], 
+                                                    negative_damage, coat_flag, invalid_coat, count_event,
+                                                    count_defeat, prime);
+                            count_fake_wong_fight++;
+                            
+                            if (atoi(TS) == (pre_TS - 1))
+                            {
+                                fake_wong = false;
+                                count_fake_wong--;
+                            }
+                            
+                            if (count_fake_wong_fight == 3)
+                            {
+                                fake_wong = false;
+                            }
+                            
+                        }
+                        else
+                        {
+                            set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index],
+                                            negative_damage, coat_flag, invalid_coat, count_event,
+                                            count_defeat, prime);
+                            if (fake_wong && atoi(LV) > 7)
+                            {
+                                fake_wong = false;
+                                count_fake_wong--;
+                            }
+                        }
+                
                         cout << "ket qua sau cac su kien thu : " << count_event << endl;;
                         cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
@@ -538,14 +752,15 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         {
                             LV = to_string(1);
                         }
+                        index += 2;
                     }
 
                     if (atoi(HP) == 0) return result = -1;
-                    index++;
+                    // index++;
                 // }
-            }
-            else index++;    
-        } // khi while thoat ra taj day
+        //     }
+        //     else index++;    
+        // } // khi while thoat ra taj day
         //  index la vi tri cua su kien tiep theo (index da duyet qua vj trj co chua dau #)
 
         if (events[index] == '6') // lam su kien so 6
@@ -592,6 +807,13 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             if (win_percent > fx)
             {
                 set_win_information(HP, maxHP, LV, EXP, 200, TS, '6');
+
+                if (fake_wong && atoi(LV) > 7)
+                {
+                    fake_wong = false;
+                    count_fake_wong--;
+                }
+
                 cout << "ket qua sau cac su kien thu : " << count_event << endl;
                 cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                 
@@ -633,11 +855,114 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         LV = to_string(10);
                     }
                 }
+
+                if (fake_wong)
+                {
+                    fake_wong = false;
+                    count_fake_wong--;
+                }
+                
             }
             cout << "ket qua sau cac su kien thu : " << count_event << endl;
             cout << HP << " " << LV << " " << EXP << " " << TS << endl;
             index += 2;
         }
+        else if (events[index] == '8')
+        {
+            count_event++;
+            if (is_first_meet)
+            {
+                is_first_meet = false;
+                real_wong = true;
+            }
+            else if (!is_first_meet && count_fake_wong_fight < 3)
+            {
+                fake_wong = true;
+                count_fake_wong++;
+            }
+
+            if (real_wong && fake_wong)
+            {
+                fake_wong = false;
+                count_fake_wong--;
+                count_real_wong_help++;
+
+                if (count_real_wong_help == 3)
+                {
+                    real_wong = false;
+                }
+                
+            }
+            
+            if (fake_wong && coat_flag)
+            {
+                coat_flag = false;
+                if (invalid_coat)
+                {
+                    LV = to_string(atoi(LV) - 2);
+                }
+                
+                count_fake_wong_fight++;
+
+                if (count_fake_wong_fight == 3)
+                {
+                    fake_wong = false;
+                }
+            }
+
+            if (fake_wong && atoi(LV) > 7)
+            {
+                fake_wong = false;
+                count_fake_wong--;
+            }
+            
+            
+            if (fake_wong && count_fake_wong == 2)
+            {
+                count_fake_wong--;
+                count_fake_wong_fight++;
+                if (count_fake_wong_fight == 3)
+                {
+                    fake_wong = false;
+                }
+            }
+            
+
+
+            index += 2;
+        }
+
+        else if (events[index] == '9')
+        {
+            HP = maxHP;
+            dangerous_chemical = false;
+            if (fake_wong)
+            {
+                fake_wong = false;
+                count_fake_wong--;
+            }
+            
+            if (count_defeat != 0)
+            {
+                count_defeat = 0;
+                invalid_coat = true;
+            }
+
+            if (!coat_flag)
+            {
+                coat_flag = true;
+                LV = to_string(atoi(LV) + 2);
+                if (atoi(LV) > 10)
+                {
+                    LV = to_string(10);
+                }
+            }
+            
+            index += 2;
+        }
+
+
+        
         
     }
     
