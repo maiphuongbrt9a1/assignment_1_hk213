@@ -13,7 +13,7 @@ using namespace std;
 
 ///STUDENT'S ANSWER BEGINS HERE
 ///STUDENTS CAN ADD HELPER FUNCTIONS
-
+// ktlt.bku@gmail.com
 int atoi(string s)
 {
     int result = 0;
@@ -54,15 +54,23 @@ void set_win_information(string & HP, string & maxHP, string & LV, string & EXP,
         {
             EXP = to_string(atoi(EXP) - 100);
             LV = to_string(atoi(LV) + 1);
-            maxHP = to_string(atoi(maxHP) + 50);
-            HP = to_string(atoi(HP) + 10);
-            if (atoi(HP) > atoi(maxHP)) HP = maxHP;
-            if (atoi(HP) > 999) HP = to_string(999);
-            if (atoi(maxHP) > 999) maxHP = to_string(999);
+            if (atoi(LV) <= 10)
+            {
+                maxHP = to_string(atoi(maxHP) + 50);
+                HP = to_string(atoi(HP) + 10);
+                if (atoi(HP) > atoi(maxHP)) HP = maxHP;
+                if (atoi(HP) > 999) HP = to_string(999);
+                if (atoi(maxHP) > 999) maxHP = to_string(999);   
+            }
         }
         
     }
 
+    if (atoi(LV) >= 10)
+    {
+        LV = to_string(10);
+    }
+    
     if (event == '6')
     {
         TS = to_string(atoi(TS) + 1);
@@ -71,8 +79,8 @@ void set_win_information(string & HP, string & maxHP, string & LV, string & EXP,
 
 }
 
-void set_defeat_information(string & HP, string maxHP, int LVo, float baseDamage, string & TS, char event,
-                            int negative_damage, bool coat_flag, bool invalid_coat,
+void set_defeat_information(string & HP, string maxHP, int LVo, float baseDamage, string & TS,
+                            char event, int negative_damage, bool coat_flag, bool invalid_coat,
                             int count_events,int & count_defeat, int prime_big_than_hp)
 {
     if (coat_flag && invalid_coat)
@@ -409,7 +417,15 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
     for (; index < length - 1; )
     {
         // 1-->5 events
-        while (events[index] != '!' && events[index] < '6')  // lam sao do chi lay cac ma su kien la 1-->5
+        while (events[index] != '!' 
+                && events[index] < '6'
+                // && events[index + 1] != '0'
+                // && events[index + 1] != '1'
+                // && events[index + 1] != '2'
+                // && events[index + 1] != '3'
+                // && events[index + 1] != '4'
+                // && events[index + 1] != '5'
+                )                       // lam sao do chi lay cac ma su kien la 1-->5
                                         //  dk nay chua chuan cho cac truong hop 10.11.12.13.14.15
                                         // can sua chua lai sau
         {                                           
@@ -429,12 +445,17 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index],
                                         negative_damage, coat_flag, invalid_coat, count_event,
                                         count_defeat, prime);
-                        cout << "ket qua sau cac su kien: " << endl;
+                        cout << "ket qua sau cac su kien thu : " << count_event << endl;
                         cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
                         }
+                        if (atoi(LV) < 3 && !invalid_coat)
+                        {
+                            LV = to_string(1);
+                        }
+                        
         
                     }
                     else if (atoi(events[index]) == 2)
@@ -446,11 +467,15 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index],
                                         negative_damage, coat_flag, invalid_coat, count_event,
                                         count_defeat, prime);
-                        cout << "ket qua sau cac su kien: " << endl;
+                        cout << "ket qua sau cac su kien thu : " << count_event << endl;
                         cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
+                        }
+                        if (atoi(LV) < 3 && !invalid_coat)
+                        {
+                            LV = to_string(1);
                         }
                         
                     }
@@ -463,13 +488,16 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index],
                                         negative_damage, coat_flag, invalid_coat, count_event,
                                         count_defeat, prime);
-                        cout << "ket qua sau cac su kien: " << endl;
+                        cout << "ket qua sau cac su kien thu : " << count_event << endl;
                         cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
                         }
-                        
+                        if (atoi(LV) < 3 && !invalid_coat)
+                        {
+                            LV = to_string(1);
+                        }
                     }
                     else if (atoi(events[index]) == 4)
                     {
@@ -480,13 +508,16 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index],
                                         negative_damage, coat_flag, invalid_coat, count_event,
                                         count_defeat, prime);
-                        cout << "ket qua sau cac su kien: " << endl;
+                        cout << "ket qua sau cac su kien thu : " << count_event << endl;
                         cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
                         }
-                        
+                        if (atoi(LV) < 3 && !invalid_coat)
+                        {
+                            LV = to_string(1);
+                        }
                     }
                     else if (atoi(events[index]) == 5)
                     {
@@ -497,11 +528,15 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         set_information(HP, LV, EXP, TS, maxHP, LVo, baseDamage, exp, events[index],
                                         negative_damage, coat_flag, invalid_coat, count_event,
                                         count_defeat, prime);
-                        cout << "ket qua sau cac su kien: " << endl;
+                        cout << "ket qua sau cac su kien thu : " << count_event << endl;;
                         cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
+                        }
+                        if (atoi(LV) < 3 && !invalid_coat)
+                        {
+                            LV = to_string(1);
                         }
                     }
 
@@ -557,21 +592,26 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             if (win_percent > fx)
             {
                 set_win_information(HP, maxHP, LV, EXP, 200, TS, '6');
+                cout << "ket qua sau cac su kien thu : " << count_event << endl;
+                cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                 
             }
             else
             {
-                cout << "ket qua sau cac su kien: " << endl;
-                cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                 int prime = find_prime_big_than_hp(HP);
                 set_defeat_information(HP, maxHP, LVo, 0, TS, '6', negative_damage, coat_flag, invalid_coat,
                                        count_event, count_defeat, prime);
                 
+                cout << "ket qua sau cac su kien thu : " << count_event << endl;
+                cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                 if (count_defeat >= 3)
                 {
                     invalid_coat = false;
                 }
-                
+                if (atoi(LV) < 3 && !invalid_coat)
+                {
+                    LV = to_string(1);
+                }
                 if (atoi(HP) == 0) return result = -1;
                 
             }
@@ -594,7 +634,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                     }
                 }
             }
-            
+            cout << "ket qua sau cac su kien thu : " << count_event << endl;
+            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
             index += 2;
         }
         
