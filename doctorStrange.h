@@ -399,6 +399,52 @@ int find_prime_big_than_hp(string HP)
     return result;
 }
 
+int fibonacci (string HP)
+{
+    int result = atoi(HP);
+    
+    if (atoi(HP) > 0 && atoi(HP) <= 3)
+    {
+        return atoi(HP) - 1;
+    }
+    
+    while (true)
+    {
+        int f0 = 0;
+        int f1 = 1;
+        int fn = 0;
+        result--;
+        
+        while (fn <= result)
+        {
+            fn = f1 + f0;
+            f0 = f1;
+            f1 = fn;
+            if (fn == result)
+            {
+                result = fn;
+                break;
+            }
+            
+        }
+        
+        if (fn == result)
+        {
+            break;
+        }
+        
+    }
+    
+    return result;
+}
+
+string translate_string (string &s1, string s2)
+{
+    int ith = s2.length() % 10;
+    
+}
+
+
 int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & events) {
     ///Students have to complete this function and DO NOT modify any parameters in this function.
     int result = 0;
@@ -422,6 +468,12 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
     int count_fake_wong = 0;
     
     bool dangerous_chemical = false;
+    int count_events_after_11_event = 0;
+    int LV_deference = 0;
+
+
+
+
     for (; index < length - 1; )
     {
         // 1-->5 events
@@ -447,6 +499,26 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         int exp = 10;
                         int negative_damage = 0;
                         int prime = find_prime_big_than_hp(HP);
+
+                        if (count_events_after_11_event >= 3)
+                        {
+                            count_events_after_11_event = 0;
+                            dangerous_chemical = false;
+                            if (LV_deference == 1)
+                            {
+                                LV = to_string(atoi(LV) + 1);
+                                LV_deference = 0;
+                            }
+                            else LV = to_string(atoi(LV) + 2);
+
+                            if (fake_wong && atoi(LV) > 7)
+                            {
+                                fake_wong = false;
+                                count_fake_wong--;
+                            }
+                        }
+                        
+
                         if (real_wong)
                         {
                             set_win_information(HP, maxHP, LV, EXP, exp, TS, events[index]);
@@ -489,17 +561,24 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                             }
                             
                         }
+
+                        if (dangerous_chemical)
+                        {
+                            count_events_after_11_event++;
+                        }
                         
+
                         cout << "ket qua sau cac su kien thu : " << count_event << endl;
                         cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
+                            if (atoi(LV) < 3 && !invalid_coat)
+                            {
+                                LV = to_string(1);
+                            }
                         }
-                        if (atoi(LV) < 3 && !invalid_coat)
-                        {
-                            LV = to_string(1);
-                        }
+                        
                         
                         index += 2;
                     }
@@ -511,6 +590,30 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         int exp = 20;
                         int negative_damage = 0;
                         int prime = find_prime_big_than_hp(HP);
+                        
+                        if (count_events_after_11_event >= 3)
+                        {
+                            count_events_after_11_event = 0;
+                            dangerous_chemical = false;
+                            if (LV_deference == 1)
+                            {
+                                LV = to_string(atoi(LV) + 1);
+                                LV_deference = 0;
+                            }
+                            else LV = to_string(atoi(LV) + 2);
+
+                            if (fake_wong && atoi(LV) > 7)
+                            {
+                                fake_wong = false;
+                                count_fake_wong--;
+                            }
+                        }
+
+                        if (dangerous_chemical)
+                        {
+                            count_events_after_11_event++;
+                        }
+
                         if (real_wong)
                         {
                             set_win_information(HP, maxHP, LV, EXP, exp, TS, events[index]);
@@ -557,10 +660,10 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
-                        }
-                        if (atoi(LV) < 3 && !invalid_coat)
-                        {
-                            LV = to_string(1);
+                            if (atoi(LV) < 3 && !invalid_coat)
+                            {
+                                LV = to_string(1);
+                            }
                         }
                         
                         index += 2;
@@ -574,6 +677,29 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         int negative_damage = 0;
                         int prime = find_prime_big_than_hp(HP);
                         
+                        if (count_events_after_11_event >= 3)
+                        {
+                            count_events_after_11_event = 0;
+                            dangerous_chemical = false;
+                            if (LV_deference == 1)
+                            {
+                                LV = to_string(atoi(LV) + 1);
+                                LV_deference = 0;
+                            }
+                            else LV = to_string(atoi(LV) + 2);
+                            
+                            if (fake_wong && atoi(LV) > 7)
+                            {
+                                fake_wong = false;
+                                count_fake_wong--;
+                            }
+                        }
+
+                        if (dangerous_chemical)
+                        {
+                            count_events_after_11_event++;
+                        }
+
                         if (real_wong)
                         {
                             set_win_information(HP, maxHP, LV, EXP, exp, TS, events[index]);
@@ -621,11 +747,10 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
-                        }
-                        
-                        if (atoi(LV) < 3 && !invalid_coat)
-                        {
-                            LV = to_string(1);
+                            if (atoi(LV) < 3 && !invalid_coat)
+                            {
+                                LV = to_string(1);
+                            }
                         }
 
                         index += 2;
@@ -639,6 +764,30 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         int negative_damage = 0;
                         int prime = find_prime_big_than_hp(HP);
                         
+
+                        if (count_events_after_11_event >= 3)
+                        {
+                            count_events_after_11_event = 0;
+                            dangerous_chemical = false;
+                            if (LV_deference == 1)
+                            {
+                                LV = to_string(atoi(LV) + 1);
+                                LV_deference = 0;
+                            }
+                            else LV = to_string(atoi(LV) + 2);
+
+                            if (fake_wong && atoi(LV) > 7)
+                            {
+                                fake_wong = false;
+                                count_fake_wong--;
+                            }
+                        }
+
+                        if (dangerous_chemical)
+                        {
+                            count_events_after_11_event++;
+                        }
+
                         if (real_wong)
                         {
                             set_win_information(HP, maxHP, LV, EXP, exp, TS, events[index]);
@@ -685,10 +834,10 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
-                        }
-                        if (atoi(LV) < 3 && !invalid_coat)
-                        {
-                            LV = to_string(1);
+                            if (atoi(LV) < 3 && !invalid_coat)
+                            {
+                                LV = to_string(1);
+                            }
                         }
 
                         index += 2;
@@ -701,6 +850,28 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         int exp = 70;
                         int negative_damage = 0;
                         int prime = find_prime_big_than_hp(HP);
+                        
+                        if (count_events_after_11_event >= 3)
+                        {
+                            count_events_after_11_event = 0;
+                            dangerous_chemical = false;
+                            if (LV_deference == 1)
+                            {
+                                LV = to_string(atoi(LV) + 1);
+                                LV_deference = 0;
+                            }
+                            else LV = to_string(atoi(LV) + 2);
+
+                            if (fake_wong && atoi(LV) > 7)
+                            {
+                                fake_wong = false;
+                                count_fake_wong--;
+                            }
+                        }
+                        if (dangerous_chemical)
+                        {
+                            count_events_after_11_event++;
+                        }
                         if (real_wong)
                         {
                             set_win_information(HP, maxHP, LV, EXP, exp, TS, events[index]);
@@ -747,10 +918,10 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
-                        }
-                        if (atoi(LV) < 3 && !invalid_coat)
-                        {
-                            LV = to_string(1);
+                            if (atoi(LV) < 3 && !invalid_coat)
+                            {
+                                LV = to_string(1);
+                            }
                         }
                         index += 2;
                     }
@@ -767,6 +938,28 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
         {
             count_event++;
             int LVo = set_LVo(count_event);
+
+            if (count_events_after_11_event >= 3)
+            {
+                count_events_after_11_event = 0;
+                dangerous_chemical = false;
+                if (LV_deference == 1)
+                {
+                    LV = to_string(atoi(LV) + 1);
+                    LV_deference = 0;
+                }
+                else LV = to_string(atoi(LV) + 2);
+
+                if (fake_wong && atoi(LV) > 7)
+                {
+                    fake_wong = false;
+                    count_fake_wong--;
+                }
+            }
+            if (dangerous_chemical)
+            {
+                count_events_after_11_event++;
+            }
             index += 2; // di chuyen con tro den vi tri dau tien co chu cai sau ma su kien 6
             string magic_work = "";
             while (events[index] != '#' && events[index] != '!')
@@ -829,10 +1022,10 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                 if (count_defeat >= 3)
                 {
                     invalid_coat = false;
-                }
-                if (atoi(LV) < 3 && !invalid_coat)
-                {
-                    LV = to_string(1);
+                    if (atoi(LV) < 3 && !invalid_coat)
+                    {
+                        LV = to_string(1);
+                    }
                 }
                 if (atoi(HP) == 0) return result = -1;
                 
@@ -843,6 +1036,27 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
         {
             count_event++;
 
+            if (count_events_after_11_event >= 3)
+            {
+                count_events_after_11_event = 0;
+                dangerous_chemical = false;
+                if (LV_deference == 1)
+                {
+                    LV = to_string(atoi(LV) + 1);
+                    LV_deference = 0;
+                }
+                else LV = to_string(atoi(LV) + 2);
+
+                if (fake_wong && atoi(LV) > 7)
+                {
+                    fake_wong = false;
+                    count_fake_wong--;
+                }
+            }
+            if (dangerous_chemical)
+            {
+                count_events_after_11_event++;
+            }
             if (!coat_flag)
             {
                 coat_flag = true;
@@ -856,11 +1070,23 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                     }
                 }
 
+                // if (fake_wong)
+                // {
+                //     coat_flag = false;
+                //     count_fake_wong_fight++;
+                //     if (count_fake_wong_fight >= 3)
+                //     {
+                //         fake_wong = false;
+                //     }
+                    
+                // }
+
                 if (fake_wong)
                 {
                     fake_wong = false;
                     count_fake_wong--;
                 }
+                
                 
             }
             cout << "ket qua sau cac su kien thu : " << count_event << endl;
@@ -870,6 +1096,29 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
         else if (events[index] == '8')
         {
             count_event++;
+
+            if (count_events_after_11_event >= 3)
+            {
+                count_events_after_11_event = 0;
+                dangerous_chemical = false;
+                if (LV_deference == 1)
+                {
+                    LV = to_string(atoi(LV) + 1);
+                    LV_deference = 0;
+                }
+                else LV = to_string(atoi(LV) + 2);
+
+                if (fake_wong && atoi(LV) > 7)
+                {
+                    fake_wong = false;
+                    count_fake_wong--;
+                }
+            }
+            if (dangerous_chemical)
+            {
+                count_events_after_11_event++;
+            }
+
             if (is_first_meet)
             {
                 is_first_meet = false;
@@ -934,8 +1183,41 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
 
         else if (events[index] == '9')
         {
+            count_event++;
+            
+            // if (count_events_after_11_event >= 3)
+            // {
+            //     count_events_after_11_event = 0;
+            //     dangerous_chemical = false;
+            //     if (LV_deference == 1)
+            //     {
+            //         LV = to_string(atoi(LV) + 1);
+            //         LV_deference = 0;
+            //     }
+            //     else LV = to_string(atoi(LV) + 2);
+
+            //     if (fake_wong && atoi(LV) > 7)
+            //     {
+            //         fake_wong = false;
+            //         count_fake_wong--;
+            //     }
+            // }
+            // if (dangerous_chemical)
+            // {
+            //     count_events_after_11_event++;
+            // }
             HP = maxHP;
+
+
             dangerous_chemical = false;
+            count_events_after_11_event = 0;
+            if (LV_deference == 1)
+            {
+                LV = to_string(atoi(LV) + 1);
+                LV_deference = 0;
+            }
+            else LV = to_string(atoi(LV) + 2);
+            
             if (fake_wong)
             {
                 fake_wong = false;
@@ -961,7 +1243,268 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             index += 2;
         }
 
+        if (events[index] == '1' && events[index + 1] == '0')
+        {
+            count_event++;
 
+            if (count_events_after_11_event >= 3)
+            {
+                count_events_after_11_event = 0;
+                dangerous_chemical = false;
+                if (LV_deference == 1)
+                {
+                    LV = to_string(atoi(LV) + 1);
+                    LV_deference = 0;
+                }
+                else LV = to_string(atoi(LV) + 2);
+
+                if (fake_wong && atoi(LV) > 7)
+                {
+                    fake_wong = false;
+                    count_fake_wong--;
+                }
+            }
+            if (dangerous_chemical)
+            {
+                count_events_after_11_event++;
+            }
+            HP = to_string(atoi(HP) + fibonacci(HP));
+            if (atoi(HP) > atoi(maxHP))
+            {
+                HP = maxHP;
+            }
+            
+            index += 3;
+        }
+        else if (events[index] == '1' && events[index + 1] == '1')
+        {
+            count_event++;
+
+            if (count_events_after_11_event >= 3)
+            {
+                count_events_after_11_event = 0;
+                dangerous_chemical = false;
+                if (LV_deference == 1)
+                {
+                    LV = to_string(atoi(LV) + 1);
+                    LV_deference = 0;
+                }
+                else LV = to_string(atoi(LV) + 2);
+
+                if (fake_wong && atoi(LV) > 7)
+                {
+                    fake_wong = false;
+                    count_fake_wong--;
+                }
+            }
+            if (dangerous_chemical)
+            {
+                count_events_after_11_event++;
+            }
+            int pre_TS = atoi(TS);
+            
+            if (real_wong)
+            {
+                count_real_wong_help++;
+                if (count_real_wong_help >= 3)
+                {
+                    real_wong = false;
+                }
+                
+            }
+            else if (fake_wong)
+            {
+                HP = to_string(atoi(HP) - 50);
+                dangerous_chemical = true;
+                int HP_temp = std::stoi(HP, 0, 10);
+                if (HP_temp <= 0)
+                {
+                    if (atoi(TS) == 0)
+                    {
+                        HP = to_string(0);
+                        
+                    }
+                    else
+                    {
+                        TS = to_string(atoi(TS) - 1);
+                        HP = maxHP;
+                    }
+                    
+                }
+
+                if (atoi(HP) == 0)
+                {
+                    return -1;
+                }
+                else
+                {
+                    // dangerous_chemical = true;
+                    count_fake_wong_fight++;
+                    if (count_fake_wong_fight >= 3)
+                    {
+                        fake_wong = false;
+                        count_fake_wong--;
+                    }
+
+                    if (fake_wong && atoi(TS) == (pre_TS - 1))
+                    {
+                        fake_wong = false;
+                        count_fake_wong--;
+                        dangerous_chemical = false;
+                    }
+                    
+                    if (atoi(LV) < 3 && dangerous_chemical)
+                    {
+                        LV_deference = atoi(LV) - 1;
+                        LV = to_string(1);
+                    }
+                    else if (atoi(LV) >= 3 && dangerous_chemical)
+                    {
+                        LV = to_string(atoi(LV) - 2);
+                    }
+                    
+                    
+                }
+                
+                
+            }
+            
+            else if (!dangerous_chemical)
+            {
+                HP = to_string(atoi(HP) - 50);
+                dangerous_chemical = true;
+                int HP_temp = std::stoi(HP, 0, 10);
+                if (HP_temp <= 0)
+                {
+                    if (atoi(TS) == 0)
+                    {
+                        HP = to_string(0);
+                        
+                    }
+                    else
+                    {
+                        TS = to_string(atoi(TS) - 1);
+                        HP = maxHP;
+                    }
+                    
+                }
+
+                if (atoi(HP) == 0)
+                {
+                    return -1;
+                }
+
+                if (atoi(LV) < 3 && dangerous_chemical)
+                    {
+                        LV_deference = atoi(LV) - 1;
+                        LV = to_string(1);
+                    }
+                    else if (atoi(LV) >= 3 && dangerous_chemical)
+                    {
+                        LV = to_string(atoi(LV) - 2);
+                    }
+            }
+            
+            else if (dangerous_chemical)
+            {
+                HP = to_string(atoi(HP) - 50);
+                int HP_temp = std::stoi(HP, 0, 10);
+                if (HP_temp <= 0)
+                {
+                    if (atoi(TS) == 0)
+                    {
+                        HP = to_string(0);
+                        
+                    }
+                    else
+                    {
+                        TS = to_string(atoi(TS) - 1);
+                        HP = maxHP;
+                    }
+                    
+                }
+
+                if (atoi(HP) == 0)
+                {
+                    return -1;
+                }
+            }
+
+            index += 3;
+        }
+        else if (events[index] == '1' && events[index + 1] == '2')
+        {
+            count_event++;
+            if (count_events_after_11_event >= 3)
+            {
+                count_events_after_11_event = 0;
+                dangerous_chemical = false;
+                if (LV_deference == 1)
+                {
+                    LV = to_string(atoi(LV) + 1);
+                    LV_deference = 0;
+                }
+                else LV = to_string(atoi(LV) + 2);
+
+                if (fake_wong && atoi(LV) > 7)
+                {
+                    fake_wong = false;
+                    count_fake_wong--;
+                }
+            }
+            if (dangerous_chemical)
+            {
+                count_events_after_11_event++;
+            }
+
+            if (count_defeat >= 3)
+            {
+                invalid_coat = false;
+                if (atoi(LV) < 3 && !invalid_coat)
+                {
+                    LV = to_string(1);
+                }
+            }
+            
+            if (fake_wong)
+            {
+                fake_wong = false;
+                count_fake_wong--;
+            }
+
+            index += 3;
+
+
+            string s1 = "";
+            string s2 = "";
+            int G_point = 0;
+            while (events[index] != ' ')
+            {
+                s1 += events[index];
+                index++;
+            }
+            index++;
+
+            while (events[index] != '#' && events[index] != '!')
+            {
+                s2 += events[index];
+                index++;
+            }
+
+            index++; // da di qua den ma su kien moi 
+                    // da duyet qua ky tu #
+
+            if (s1.length() == 1 || s1.length() == 2)
+            {
+                // int ith = s2.length() % 10;
+
+            }
+            else  
+            {
+                G_point = int ((s1.length() * 1.0f) / 2);
+            }
+        }
+        
         
         
     }
