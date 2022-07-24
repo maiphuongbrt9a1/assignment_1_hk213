@@ -534,7 +534,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
 
                 // if (count_event < 6)
                 // {
-                    if (atoi(events[index]) == 1 && events[index + 1] == '#')
+                    if (atoi(events[index]) == 1 && (events[index + 1] == '#' || events[index + 1] == '!'))
                     {
                         count_event++;
                         int LVo = set_LVo(count_event);
@@ -625,7 +625,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         
                         index += 2;
                     }
-                    else if (atoi(events[index]) == 2)
+                    else if (atoi(events[index]) == 2 && (events[index + 1] == '#' || events[index + 1] == '!'))
                     {
                         count_event++;
                         int LVo = set_LVo(count_event);
@@ -711,7 +711,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         
                         index += 2;
                     }
-                    else if (atoi(events[index]) == 3)
+                    else if (atoi(events[index]) == 3 && (events[index + 1] == '#' || events[index + 1] == '!'))
                     {
                         count_event++;
                         int LVo = set_LVo(count_event);
@@ -798,7 +798,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
 
                         index += 2;
                     }
-                    else if (atoi(events[index]) == 4)
+                    else if (atoi(events[index]) == 4 && (events[index + 1] == '#' || events[index + 1] == '!'))
                     {
                         count_event++;
                         int LVo = set_LVo(count_event);
@@ -885,7 +885,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
 
                         index += 2;
                     }
-                    else if (atoi(events[index]) == 5)
+                    else if (atoi(events[index]) == 5 && (events[index + 1] == '#' || events[index + 1] == '!'))
                     {
                         count_event++;
                         int LVo = set_LVo(count_event);
@@ -1010,6 +1010,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                 magic_work += events[index];
                 index++;
             }
+
+           
             index++;  //  index la vi tri cua su kien tiep theo (index da duyet qua vj trj co chua dau #)
             
             // cout << magic_work << endl;
@@ -1582,7 +1584,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                     s1_right += s1[i];
                 }
                 
-                for (int i = G_point - 1 - 1; i >= 0 ; i++)
+                for (int i = G_point - 1; i >= 0 ; i--)
                 {
                     s1_left += s1[i];
                 }
