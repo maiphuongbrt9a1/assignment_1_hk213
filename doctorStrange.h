@@ -1520,6 +1520,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
 
             string s1 = "";
             string s2 = "";
+            string s_result = "";
+            int found;
             int G_point = 0;
             while (events[index] != ' ')
             {
@@ -1550,7 +1552,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                else
                {
                     translate_string(s1, s2);
-                    if (s1.find(s2, 0) == std::string::npos)
+                    found = s1.find(s2, 0);
+                    if (found == -1)
                     {
                         defeat_12nd_event = true;
                         coat_flag = false;
@@ -1572,7 +1575,38 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             else  
             {
                 G_point = int ((s1.length() * 1.0f) / 2);
+                string s1_right = "";
+                string s1_left = "";
+                for (int i = s1.length() - 1; i > G_point; i--)
+                {
+                    s1_right += s1[i];
+                }
                 
+                for (int i = G_point - 1 - 1; i >= 0 ; i++)
+                {
+                    s1_left += s1[i];
+                }
+                
+                s_result = s1_left + s1[G_point] + s1_right;
+
+                translate_string(s_result, s2);
+                found = s_result.find(s2, 0);
+                if (found == -1)
+                {
+                    defeat_12nd_event = true;
+                    coat_flag = false;
+                    TS = to_string(0);
+                    kill_Strange = true;
+                    EXP = to_string(atoi(EXP) + 15);
+                }
+                else
+                {
+                    defeat_12nd_event = false;
+                    kill_Strange = false;
+                    EXP = to_string(atoi(EXP) + 30);
+                    HP = to_string(int(atoi(HP) * 1.0f - atoi(HP) * 10 * 1.0f / 100));
+                    maxHP = to_string(int(atoi(maxHP) * 1.0f - atoi(maxHP) * 10 * 1.0f / 100));
+                }
             }
         }
         
