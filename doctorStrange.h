@@ -1221,7 +1221,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                 }
             }
             
-
+            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
 
             index += 2;
         }
@@ -1284,7 +1285,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                     LV = to_string(10);
                 }
             }
-            
+            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
             index += 2;
         }
 
@@ -1318,7 +1320,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             {
                 HP = maxHP;
             }
-            
+            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
             index += 3;
         }
         else if (events[index] == '1' && events[index + 1] == '1')
@@ -1475,6 +1478,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                 }
             }
 
+            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
             index += 3;
         }
         else if (events[index] == '1' && events[index + 1] == '2')
@@ -1610,6 +1615,9 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                     maxHP = to_string(int(atoi(maxHP) * 1.0f - atoi(maxHP) * 10 * 1.0f / 100));
                 }
             }
+
+            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
         }
         
         
