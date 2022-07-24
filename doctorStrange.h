@@ -513,7 +513,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
     int count_events_after_11_event = 0;
     int LV_deference = 0;
 
-
+    bool defeat_12nd_event = false;
+    bool kill_Strange = false;
 
 
     for (; index < length - 1; )
@@ -1099,7 +1100,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             {
                 count_events_after_11_event++;
             }
-            if (!coat_flag)
+            if (!coat_flag && !defeat_12nd_event)
             {
                 coat_flag = true;
                 if (count_defeat < 3) 
@@ -1188,10 +1189,10 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             if (fake_wong && coat_flag)
             {
                 coat_flag = false;
-                if (invalid_coat)
-                {
-                    LV = to_string(atoi(LV) - 2);
-                }
+                // if (invalid_coat)
+                // {
+                //     LV = to_string(atoi(LV) - 2);
+                // }
                 
                 count_fake_wong_fight++;
 
@@ -1538,12 +1539,40 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
 
             if (s1.length() == 1 || s1.length() == 2)
             {
-                // int ith = s2.length() % 10;
-
+               if (s2.length() > 2)
+               {
+                    defeat_12nd_event = true;
+                    coat_flag = false;
+                    TS = to_string(0);
+                    kill_Strange = true;
+                    EXP = to_string(atoi(EXP) + 15);
+               }
+               else
+               {
+                    translate_string(s1, s2);
+                    if (s1.find(s2, 0) == std::string::npos)
+                    {
+                        defeat_12nd_event = true;
+                        coat_flag = false;
+                        TS = to_string(0);
+                        kill_Strange = true;
+                        EXP = to_string(atoi(EXP) + 15);
+                    }
+                    else
+                    {
+                        defeat_12nd_event = false;
+                        kill_Strange = false;
+                        EXP = to_string(atoi(EXP) + 30);
+                        HP = to_string(int(atoi(HP) * 1.0f - atoi(HP) * 10 * 1.0f / 100));
+                        maxHP = to_string(int(atoi(maxHP) * 1.0f - atoi(maxHP) * 10 * 1.0f / 100));
+                    }
+                    
+               }
             }
             else  
             {
                 G_point = int ((s1.length() * 1.0f) / 2);
+                
             }
         }
         
