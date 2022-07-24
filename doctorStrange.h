@@ -438,9 +438,51 @@ int fibonacci (string HP)
     return result;
 }
 
-string translate_string (string &s1, string s2)
+void translate_string (string &s1, string s2)
 {
     int ith = s2.length() % 10;
+    int length_s1 = s1.length();
+    for (int i = 0; i < length_s1; i++)
+    {
+        int position = ith;
+            if (s1[i] >= 'A' && s1[i] <= 'Z')
+            {
+                if (int(s1[i]) + position > 90)
+                {
+                    position = position - (90 - int(s1[i])) - 1; 
+                    s1[i] = 'A';
+                    while (int(s1[i]) + position > 90)
+                    {
+                        position = position - (90 - int(s1[i])) - 1; 
+                    }
+                    
+                    s1[i] = char(int(s1[i]) + position);
+                }
+                else
+                {
+                    s1[i] = char(int(s1[i]) + position);
+                }
+            }
+            else if (s1[i] >= 'a' && s1[i] <= 'z')
+            {
+                if (int(s1[i]) + position > 122)
+                {
+                    position = position - (122 - int(s1[i])) - 1;
+                    s1[i] = 'a';
+                    while (int(s1[i]) + position > 122)
+                    {
+                        position = position - (122 - int(s1[i])) - 1; 
+                    }
+                    
+                    s1[i] = char(int(s1[i]) + position);
+                }
+                else
+                {
+                    s1[i] = char(int(s1[i]) + position);
+                }
+            }   
+        
+    }
     
 }
 
