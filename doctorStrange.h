@@ -24,7 +24,8 @@ int atoi(string s)
     else 
     {
         result += int(s[0]) - 48;
-        for (int i = 1; i < s.length(); i++)
+        int s_length = s.length();
+        for (int i = 1; i < s_length; i++)
         {
             result = result * 10 + (int(s[i]) - 48); 
         }
@@ -91,7 +92,7 @@ void set_defeat_information(string & HP, string maxHP, int LVo, float baseDamage
         {
             int HP_temp = int(atoi(HP) - damage);
             HP = to_string(int(atoi(HP) - damage));
-            // cout << HP << endl;
+            // // cout << HP << endl;
             if (HP_temp <= 0)
             {
                 if (atoi(TS) == 0)
@@ -125,7 +126,7 @@ void set_defeat_information(string & HP, string maxHP, int LVo, float baseDamage
                 if (negative_damage < 100) 
                 {
                     int HP_temp = int(atoi(HP) * 1.0f - (atoi(HP) * 1.0f * (100 - negative_damage - gy) / 100));
-                    // cout << "check HP khi thua tai sk 6 khi negative damage < 100: " 
+                    // // cout << "check HP khi thua tai sk 6 khi negative damage < 100: " 
                     // << (atoi(HP) * 1.0f - (atoi(HP) * 1.0f * (100 - negative_damage) / 100)) << endl;
                     HP = to_string(int(atoi(HP) * 1.0f - (atoi(HP) * 1.0f * (100 - negative_damage - gy) / 100)));
 
@@ -153,7 +154,7 @@ void set_defeat_information(string & HP, string maxHP, int LVo, float baseDamage
         {
             int HP_temp = int(atoi(HP) * 1.0f - (baseDamage * LVo * 10));
             HP = to_string(int(atoi(HP) * 1.0f - (baseDamage * LVo * 10)));
-            // cout << HP << endl;
+            // // cout << HP << endl;
             if (HP_temp <= 0)
             {
                 if (atoi(TS) == 0)
@@ -187,7 +188,7 @@ void set_defeat_information(string & HP, string maxHP, int LVo, float baseDamage
                 if (negative_damage < 100) 
                 {
                     int HP_temp = int(atoi(HP) * 1.0f - (atoi(HP) * 1.0f * (100 - negative_damage) / 100));
-                    // cout << "check HP khi thua tai sk 6 khi negative damage < 100: " << (atoi(HP) * 1.0f - (atoi(HP) * 1.0f * (100 - negative_damage) / 100)) << endl;
+                    // // cout << "check HP khi thua tai sk 6 khi negative damage < 100: " << (atoi(HP) * 1.0f - (atoi(HP) * 1.0f * (100 - negative_damage) / 100)) << endl;
                     HP = to_string(int(atoi(HP) * 1.0f - (atoi(HP) * 1.0f * (100 - negative_damage) / 100)));
 
                     if (HP_temp <= 0)
@@ -490,8 +491,8 @@ void translate_string (string &s1, string s2)
 int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & events) {
     ///Students have to complete this function and DO NOT modify any parameters in this function.
     int result = 0;
-    cout << HP << " " << LV << " " << EXP << " " << TS << endl;
-    cout << events << endl;
+    // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+    // cout << events << endl;
 
 
     string maxHP = HP;
@@ -611,8 +612,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         }
                         
 
-                        cout << "ket qua sau cac su kien thu : " << count_event << endl;
-                        cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+                        // cout << "ket qua sau cac su kien thu : " << count_event << endl;
+                        // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
@@ -698,8 +699,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                             }
                         }
                         
-                        cout << "ket qua sau cac su kien thu : " << count_event << endl;
-                        cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+                        // cout << "ket qua sau cac su kien thu : " << count_event << endl;
+                        // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
@@ -784,8 +785,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                             }
                         }
                         
-                        cout << "ket qua sau cac su kien thu : " << count_event << endl;
-                        cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+                        // cout << "ket qua sau cac su kien thu : " << count_event << endl;
+                        // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         
                         if (count_defeat >= 3)
                         {
@@ -872,8 +873,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                             }
                         }
 
-                        cout << "ket qua sau cac su kien thu : " << count_event << endl;
-                        cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+                        // cout << "ket qua sau cac su kien thu : " << count_event << endl;
+                        // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
@@ -956,8 +957,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                             }
                         }
                 
-                        cout << "ket qua sau cac su kien thu : " << count_event << endl;;
-                        cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+                        // cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+                        // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
@@ -1014,25 +1015,25 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
            
             index++;  //  index la vi tri cua su kien tiep theo (index da duyet qua vj trj co chua dau #)
             
-            // cout << magic_work << endl;
+            // // cout << magic_work << endl;
             // chuan hoa chuoi magic_work ve dang hoa / thuong
             // sau do dem so lan xuat hien chuoi attack / defense
             // sau do cap nhat thong tjn theo yeu cau
 
-            // cout << "day la khuc kiem tra ham my_str_to_lower" << endl;
+            // // cout << "day la khuc kiem tra ham my_str_to_lower" << endl;
             my_str_to_lower(magic_work);
-            // cout << magic_work << endl;
+            // // cout << magic_work << endl;
 
-            // cout << "check count_attack_work() function: " << count_attack_work(magic_work) << endl;
-            // cout << "check count_defense_work() function: " << count_defense_work(magic_work) << endl;
+            // // cout << "check count_attack_work() function: " << count_attack_work(magic_work) << endl;
+            // // cout << "check count_defense_work() function: " << count_defense_work(magic_work) << endl;
 
             int fx = (count_event + magic_work.length()) % 100; // create fx function
             int win_percent = count_attack_work(magic_work) * 10;
             int negative_damage = 10 * count_defense_work(magic_work);
 
-            // cout << "day la fx: " << fx << endl;
-            // cout << "day la win_percent: " << win_percent << endl;
-            // cout << "day la negative damage: " << negative_damage << endl;
+            // // cout << "day la fx: " << fx << endl;
+            // // cout << "day la win_percent: " << win_percent << endl;
+            // // cout << "day la negative damage: " << negative_damage << endl;
             if (coat_flag && invalid_coat)
             {
                 int prime = find_prime_big_than_hp(HP);
@@ -1052,8 +1053,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                     count_fake_wong--;
                 }
 
-                cout << "ket qua sau cac su kien thu : " << count_event << endl;
-                cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+                // cout << "ket qua sau cac su kien thu : " << count_event << endl;
+                // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                 
             }
             else
@@ -1062,8 +1063,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                 set_defeat_information(HP, maxHP, LVo, 0, TS, '6', negative_damage, coat_flag, invalid_coat,
                                        count_event, count_defeat, prime);
                 
-                cout << "ket qua sau cac su kien thu : " << count_event << endl;
-                cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+                // cout << "ket qua sau cac su kien thu : " << count_event << endl;
+                // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                 if (count_defeat >= 3)
                 {
                     invalid_coat = false;
@@ -1134,8 +1135,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                 
                 
             }
-            cout << "ket qua sau cac su kien thu : " << count_event << endl;
-            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+            // cout << "ket qua sau cac su kien thu : " << count_event << endl;
+            // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
             index += 2;
         }
         else if (events[index] == '8')
@@ -1221,8 +1222,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                 }
             }
             
-            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
-            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+            // cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
 
             index += 2;
         }
@@ -1285,8 +1286,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                     LV = to_string(10);
                 }
             }
-            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
-            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+            // cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
             index += 2;
         }
 
@@ -1320,8 +1321,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             {
                 HP = maxHP;
             }
-            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
-            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+            // cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
             index += 3;
         }
         else if (events[index] == '1' && events[index + 1] == '1')
@@ -1478,8 +1479,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                 }
             }
 
-            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
-            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+            // cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
             index += 3;
         }
         else if (events[index] == '1' && events[index + 1] == '2')
@@ -1616,18 +1617,193 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                 }
             }
 
-            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
-            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+            // cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
         }
-        
+        else if (events[index] == '1' && events[index + 1] == '3')
+        {
+            count_event++;
+            if (count_events_after_11_event >= 3)
+            {
+                count_events_after_11_event = 0;
+                dangerous_chemical = false;
+                if (LV_deference == 1)
+                {
+                    LV = to_string(atoi(LV) + 1);
+                    LV_deference = 0;
+                }
+                else LV = to_string(atoi(LV) + 2);
+
+                if (fake_wong && atoi(LV) > 7)
+                {
+                    fake_wong = false;
+                    count_fake_wong--;
+                }
+            }
+            if (dangerous_chemical)
+            {
+                count_events_after_11_event++;
+            }
+
+            if (count_defeat >= 3)
+            {
+                invalid_coat = false;
+                if (atoi(LV) < 3 && !invalid_coat)
+                {
+                    LV = to_string(1);
+                }
+            }
+            
+            if (fake_wong)
+            {
+                fake_wong = false;
+                count_fake_wong--;
+            }
+
+            index += 3;
+
+            int m = (count_event % 7) > 2 ? (count_event % 7) : 2;
+            int min_matrix = 0;
+            int col = 1;
+            int row = 1;
+            bool defense_13rd_event = true;
+            
+            int **arr = new int *[7];
+            for (int i = 0; i < 7; i++)
+            {
+                arr[i] = new int [7];
+            }
+            
+            for (int i = 0; i < 7; i++)
+            {
+                for (int j = 0; j < 7; j++)
+                {
+                    string number = "";
+                    while (events[index] != ' ' && events[index] != '#' && events[index] != '!')
+                    {
+                        number += events[index];
+                        index++;
+                    }
+
+                    arr[i][j] = atoi(number);
+
+                    index++;
+                }
+                
+            }
+            
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < m; j++)
+                {
+                    min_matrix += arr[i][j];
+                }
+                
+            }
+            
+
+            for (int i = 0; i < 7 - m; i++)
+            {
+                for (int j = 0; j < 7 - m; j++)
+                {
+                    int min_temp = 0;
+                    for (int r = i; r < i + m; r++)
+                    {
+                        for (int k = j; k < j + m; k++)
+                        {
+                            min_temp += arr[r][k];
+                        }
+                        
+                    }
+
+                    if (min_temp < min_matrix)
+                    {
+                        min_matrix = min_temp;
+                        col = j + 1;
+                        row = i + 1;
+                    }
+                    
+                    
+                }
+                
+            }
+
+            for (int j = col - 1; j < col - 1 + m; j++)
+            {
+                for (int i = row - 1; i < row - 2 + m; i++)
+                {
+                    if (arr[i][j] > arr[i + 1][j]) 
+                    {
+                        defense_13rd_event = false;
+                        break;
+                    }
+                }
+                
+                if (!defense_13rd_event)
+                {
+                    break;
+                }
+                
+            }
+
+            if (defense_13rd_event)
+            {
+                HP = to_string(atoi(HP) + min_matrix * (col + row));
+                if (atoi(HP) > atoi(maxHP))
+                {
+                    HP = maxHP;
+                }
+                
+            }
+            else
+            {
+                int HP_temp = atoi(HP) - min_matrix * (col + row);
+                HP = to_string(atoi(HP) - min_matrix * (col + row));
+                if (HP_temp <= 0)
+                {
+                    if (!kill_Strange)
+                    {
+                        HP = to_string(1);
+                    }
+                    
+                    else if (atoi(TS) == 0)
+                    {
+                        HP = to_string(0);
+                    }
+                    else if (atoi(TS) != 0)
+                    {
+                        TS = to_string(atoi(TS) - 1);
+                        HP = maxHP;
+                    }
+                    
+                }
+
+                if (atoi(HP) == 0)
+                {
+                    return -1;
+                }
+                
+            }
+            
+            
+
+
+            
+
+
+
+
+            // cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+        }
         
         
     }
     
     
     result = atoi(HP) + atoi(LV) + atoi(EXP) + atoi(TS);
-    cout << "ket qua cuoi cung: " << endl;
-    cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+    // // cout << "ket qua cuoi cung: " << endl;
+    // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
 
 
     return result;
