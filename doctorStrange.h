@@ -92,7 +92,7 @@ void set_defeat_information(string & HP, string maxHP, int LVo, float baseDamage
         {
             int HP_temp = int(std::stoi(HP) - damage);
             HP = to_string(int(std::stoi(HP) - damage));
-            cout << HP << endl;
+            // cout << HP << endl;
             if (HP_temp <= 0)
             {
                 if (std::stoi(TS) == 0)
@@ -126,7 +126,7 @@ void set_defeat_information(string & HP, string maxHP, int LVo, float baseDamage
                 if (negative_damage < 100) 
                 {
                     int HP_temp = int(std::stoi(HP) * 1.0f - (std::stoi(HP) * 1.0f * (100 - negative_damage - gy) / 100));
-                    cout << "check HP khi thua tai sk 6 khi negative damage < 100: " ;
+                    // cout << "check HP khi thua tai sk 6 khi negative damage < 100: " ;
                     // << (std::stoi(HP) * 1.0f - (std::stoi(HP) * 1.0f * (100 - negative_damage) / 100)) << endl;
                     HP = to_string(int(std::stoi(HP) * 1.0f - (std::stoi(HP) * 1.0f * (100 - negative_damage - gy) / 100)));
 
@@ -154,7 +154,7 @@ void set_defeat_information(string & HP, string maxHP, int LVo, float baseDamage
         {
             int HP_temp = int(std::stoi(HP) * 1.0f - (baseDamage * LVo * 10));
             HP = to_string(int(std::stoi(HP) * 1.0f - (baseDamage * LVo * 10)));
-            cout << HP << endl;
+            // cout << HP << endl;
             if (HP_temp <= 0)
             {
                 if (std::stoi(TS) == 0)
@@ -188,7 +188,7 @@ void set_defeat_information(string & HP, string maxHP, int LVo, float baseDamage
                 if (negative_damage < 100) 
                 {
                     int HP_temp = int(std::stoi(HP) * 1.0f - (std::stoi(HP) * 1.0f * (100 - negative_damage) / 100));
-                    cout << "check HP khi thua tai sk 6 khi negative damage < 100: " << (std::stoi(HP) * 1.0f - (std::stoi(HP) * 1.0f * (100 - negative_damage) / 100)) << endl;
+                    // cout << "check HP khi thua tai sk 6 khi negative damage < 100: " << (std::stoi(HP) * 1.0f - (std::stoi(HP) * 1.0f * (100 - negative_damage) / 100)) << endl;
                     HP = to_string(int(std::stoi(HP) * 1.0f - (std::stoi(HP) * 1.0f * (100 - negative_damage) / 100)));
 
                     if (HP_temp <= 0)
@@ -511,8 +511,8 @@ int BinarySearch(int a[],int n,int x)
 int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & events) {
     ///Students have to complete this function and DO NOT modify any parameters in this function.
     int result = 0;
-    cout << HP << " " << LV << " " << EXP << " " << TS << endl;
-    cout << events << endl;
+    // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+    // cout << events << endl;
 
 
     string maxHP = HP;
@@ -522,6 +522,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
     int count_defeat = 0;
     bool invalid_coat = false;
     bool coat_flag = false;
+    bool fake_coat = false;
 
     bool real_wong = false;
     bool fake_wong = false;
@@ -534,23 +535,25 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
     int count_events_after_11_event = 0;
     int LV_deference = 0;
 
+    bool meet_12nd_event = false;
     bool defeat_12nd_event = false;
     bool kill_Strange = false;
 
     string TS_temp = "";
 
     string find_HP_max = HP;
-    int index_15th_event = 1;
+    string HP_15th_event = HP;
+    // int index_15th_event = 1;
     bool back = false;
     int back_index = 1;
-    int index_event = 1;
+    // int index_event = 1;
     bool dangerous_chemical_15th_event = false;
     int count_events_after_11_event_15th_event = 0;
     int LV_deference_15th_event = 0;
     bool defeat_12nd_event_15th_event = false;
     bool kill_Strange_15th_event = false;
     string maxHP_15th_event = HP;
-    int count_event_15th_event = 0;
+    // int count_event_15th_event = 0;
     int count_defeat_15th_event = 0;
     bool invalid_coat_15th_event = false;
     bool coat_flag_15th_event = false;
@@ -586,6 +589,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         if (std::stoi(find_HP_max) <= std::stoi(HP))
                         {
                             find_HP_max = HP;
+                            HP_15th_event = HP;
                             back_index = index;
                             count_defeat_15th_event = count_defeat;
                             invalid_coat_15th_event = invalid_coat;
@@ -617,15 +621,16 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
 
                         if (count_events_after_11_event >= 3)
                         {
-                            count_events_after_11_event = 0;
-                            dangerous_chemical = false;
-                            if (LV_deference == 1)
+                            if (LV_deference == 1 && dangerous_chemical)
                             {
                                 LV = to_string(std::stoi(LV) + 1);
                                 LV_deference = 0;
                             }
-                            else LV = to_string(std::stoi(LV) + 2);
+                            else if (LV_deference != 1 && dangerous_chemical) 
+                            LV = to_string(std::stoi(LV) + 2);
 
+                            count_events_after_11_event = 0;
+                            dangerous_chemical = false;
                             if (fake_wong && std::stoi(LV) > 7)
                             {
                                 fake_wong = false;
@@ -683,8 +688,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         }
                         
 
-                        cout << "ket qua sau cac su kien thu : " << count_event << endl;
-                        cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+                        // cout << "ket qua sau cac su kien thu : " << count_event << endl;
+                        // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
@@ -704,6 +709,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         if (std::stoi(find_HP_max) <= std::stoi(HP))
                         {
                             find_HP_max = HP;
+                            HP_15th_event = HP;
                             back_index = index;
                             count_defeat_15th_event = count_defeat;
                             invalid_coat_15th_event = invalid_coat;
@@ -733,15 +739,16 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         
                         if (count_events_after_11_event >= 3)
                         {
-                            count_events_after_11_event = 0;
-                            dangerous_chemical = false;
-                            if (LV_deference == 1)
+                            if (LV_deference == 1 && dangerous_chemical)
                             {
                                 LV = to_string(std::stoi(LV) + 1);
                                 LV_deference = 0;
                             }
-                            else LV = to_string(std::stoi(LV) + 2);
+                            else if (LV_deference != 1 && dangerous_chemical) 
+                            LV = to_string(std::stoi(LV) + 2);
 
+                            count_events_after_11_event = 0;
+                            dangerous_chemical = false;
                             if (fake_wong && std::stoi(LV) > 7)
                             {
                                 fake_wong = false;
@@ -795,8 +802,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                             }
                         }
                         
-                        cout << "ket qua sau cac su kien thu : " << count_event << endl;
-                        cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+                        // cout << "ket qua sau cac su kien thu : " << count_event << endl;
+                        // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
@@ -815,6 +822,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         if (std::stoi(find_HP_max) <= std::stoi(HP))
                         {
                             find_HP_max = HP;
+                            HP_15th_event = HP;
                             back_index = index;
                             count_defeat_15th_event = count_defeat;
                             invalid_coat_15th_event = invalid_coat;
@@ -845,15 +853,16 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         
                         if (count_events_after_11_event >= 3)
                         {
-                            count_events_after_11_event = 0;
-                            dangerous_chemical = false;
-                            if (LV_deference == 1)
+                            if (LV_deference == 1 && dangerous_chemical)
                             {
                                 LV = to_string(std::stoi(LV) + 1);
                                 LV_deference = 0;
                             }
-                            else LV = to_string(std::stoi(LV) + 2);
-                            
+                            else if (LV_deference != 1 && dangerous_chemical) 
+                            LV = to_string(std::stoi(LV) + 2);
+
+                            count_events_after_11_event = 0;
+                            dangerous_chemical = false;
                             if (fake_wong && std::stoi(LV) > 7)
                             {
                                 fake_wong = false;
@@ -907,8 +916,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                             }
                         }
                         
-                        cout << "ket qua sau cac su kien thu : " << count_event << endl;
-                        cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+                        // cout << "ket qua sau cac su kien thu : " << count_event << endl;
+                        // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         
                         if (count_defeat >= 3)
                         {
@@ -928,6 +937,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         if (std::stoi(find_HP_max) <= std::stoi(HP))
                         {
                             find_HP_max = HP;
+                            HP_15th_event = HP;
                             back_index = index;
                             count_defeat_15th_event = count_defeat;
                             invalid_coat_15th_event = invalid_coat;
@@ -957,15 +967,16 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
 
                         if (count_events_after_11_event >= 3)
                         {
-                            count_events_after_11_event = 0;
-                            dangerous_chemical = false;
-                            if (LV_deference == 1)
+                            if (LV_deference == 1 && dangerous_chemical)
                             {
                                 LV = to_string(std::stoi(LV) + 1);
                                 LV_deference = 0;
                             }
-                            else LV = to_string(std::stoi(LV) + 2);
+                            else if (LV_deference != 1 && dangerous_chemical) 
+                            LV = to_string(std::stoi(LV) + 2);
 
+                            count_events_after_11_event = 0;
+                            dangerous_chemical = false;
                             if (fake_wong && std::stoi(LV) > 7)
                             {
                                 fake_wong = false;
@@ -1019,8 +1030,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                             }
                         }
 
-                        cout << "ket qua sau cac su kien thu : " << count_event << endl;
-                        cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+                        // cout << "ket qua sau cac su kien thu : " << count_event << endl;
+                        // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
@@ -1040,6 +1051,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         {
                             find_HP_max = HP;
                             back_index = index;
+                            HP_15th_event = HP;
                             count_defeat_15th_event = count_defeat;
                             invalid_coat_15th_event = invalid_coat;
                             coat_flag_15th_event = coat_flag;
@@ -1068,15 +1080,16 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         
                         if (count_events_after_11_event >= 3)
                         {
-                            count_events_after_11_event = 0;
-                            dangerous_chemical = false;
-                            if (LV_deference == 1)
+                            if (LV_deference == 1 && dangerous_chemical)
                             {
                                 LV = to_string(std::stoi(LV) + 1);
                                 LV_deference = 0;
                             }
-                            else LV = to_string(std::stoi(LV) + 2);
+                            else if (LV_deference != 1 && dangerous_chemical) 
+                            LV = to_string(std::stoi(LV) + 2);
 
+                            count_events_after_11_event = 0;
+                            dangerous_chemical = false;
                             if (fake_wong && std::stoi(LV) > 7)
                             {
                                 fake_wong = false;
@@ -1128,8 +1141,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                             }
                         }
                 
-                        cout << "ket qua sau cac su kien thu : " << count_event << endl;;
-                        cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+                        // cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+                        // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                         if (count_defeat >= 3)
                         {
                             invalid_coat = false;
@@ -1155,6 +1168,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             if (std::stoi(find_HP_max) <= std::stoi(HP))
             {
                 find_HP_max = HP;
+                HP_15th_event = HP;
                 back_index = index;
                 count_defeat_15th_event = count_defeat;
                 invalid_coat_15th_event = invalid_coat;
@@ -1179,15 +1193,16 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
 
             if (count_events_after_11_event >= 3)
             {
-                count_events_after_11_event = 0;
-                dangerous_chemical = false;
-                if (LV_deference == 1)
+                if (LV_deference == 1 && dangerous_chemical)
                 {
                     LV = to_string(std::stoi(LV) + 1);
                     LV_deference = 0;
                 }
-                else LV = to_string(std::stoi(LV) + 2);
+                else if (LV_deference != 1 && dangerous_chemical) 
+                LV = to_string(std::stoi(LV) + 2);
 
+                count_events_after_11_event = 0;
+                dangerous_chemical = false;
                 if (fake_wong && std::stoi(LV) > 7)
                 {
                     fake_wong = false;
@@ -1209,25 +1224,25 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
            
             index++;  //  index la vi tri cua su kien tiep theo (index da duyet qua vj trj co chua dau #)
             
-            cout << magic_work << endl;
+            // cout << magic_work << endl;
             // chuan hoa chuoi magic_work ve dang hoa / thuong
             // sau do dem so lan xuat hien chuoi attack / defense
             // sau do cap nhat thong tjn theo yeu cau
 
-            cout << "day la khuc kiem tra ham my_str_to_lower" << endl;
+            // cout << "day la khuc kiem tra ham my_str_to_lower" << endl;
             my_str_to_lower(magic_work);
-            cout << magic_work << endl;
+            // cout << magic_work << endl;
 
-            cout << "check count_attack_work() function: " << count_attack_work(magic_work) << endl;
-            cout << "check count_defense_work() function: " << count_defense_work(magic_work) << endl;
+            // cout << "check count_attack_work() function: " << count_attack_work(magic_work) << endl;
+            // cout << "check count_defense_work() function: " << count_defense_work(magic_work) << endl;
 
             int fx = (count_event + magic_work.length()) % 100; // create fx function
             int win_percent = count_attack_work(magic_work) * 10;
             int negative_damage = 10 * count_defense_work(magic_work);
 
-            cout << "day la fx: " << fx << endl;
-            cout << "day la win_percent: " << win_percent << endl;
-            cout << "day la negative damage: " << negative_damage << endl;
+            // cout << "day la fx: " << fx << endl;
+            // cout << "day la win_percent: " << win_percent << endl;
+            // cout << "day la negative damage: " << negative_damage << endl;
             if (coat_flag && invalid_coat)
             {
                 int prime = find_prime_big_than_hp(HP);
@@ -1247,18 +1262,19 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                     count_fake_wong--;
                 }
 
-                cout << "ket qua sau cac su kien thu : " << count_event << endl;
-                cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+                // cout << "ket qua sau cac su kien thu : " << count_event << endl;
+                // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                 
             }
             else
             {
                 int prime = find_prime_big_than_hp(HP);
+                set_win_information(HP, maxHP, LV, EXP, 0, TS, '0');
                 set_defeat_information(HP, maxHP, LVo, 0, TS, '6', negative_damage, coat_flag, invalid_coat,
                                        count_event, count_defeat, prime);
                 
-                cout << "ket qua sau cac su kien thu : " << count_event << endl;
-                cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+                // cout << "ket qua sau cac su kien thu : " << count_event << endl;
+                // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                 if (count_defeat >= 3)
                 {
                     invalid_coat = false;
@@ -1279,6 +1295,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             if (std::stoi(find_HP_max) <= std::stoi(HP))
             {
                 find_HP_max = HP;
+                HP_15th_event = HP;
                 back_index = index;
                 count_defeat_15th_event = count_defeat;
                 invalid_coat_15th_event = invalid_coat;
@@ -1302,15 +1319,16 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
 
             if (count_events_after_11_event >= 3)
             {
-                count_events_after_11_event = 0;
-                dangerous_chemical = false;
-                if (LV_deference == 1)
+                if (LV_deference == 1 && dangerous_chemical)
                 {
                     LV = to_string(std::stoi(LV) + 1);
                     LV_deference = 0;
                 }
-                else LV = to_string(std::stoi(LV) + 2);
+                else if (LV_deference != 1 && dangerous_chemical) 
+                LV = to_string(std::stoi(LV) + 2);
 
+                count_events_after_11_event = 0;
+                dangerous_chemical = false;
                 if (fake_wong && std::stoi(LV) > 7)
                 {
                     fake_wong = false;
@@ -1350,11 +1368,12 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                     fake_wong = false;
                     count_fake_wong--;
                 }
-                
+
+                set_win_information(HP, maxHP, LV, EXP, 0, TS, '0');                
                 
             }
-            cout << "ket qua sau cac su kien thu : " << count_event << endl;
-            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+            // cout << "ket qua sau cac su kien thu : " << count_event << endl;
+            // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
             index += 2;
         }
         else if (events[index] == '8')
@@ -1364,6 +1383,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             if (std::stoi(find_HP_max) <= std::stoi(HP))
             {
                 find_HP_max = HP;
+                HP_15th_event = HP;
                 back_index = index;
                 count_defeat_15th_event = count_defeat;
                 invalid_coat_15th_event = invalid_coat;
@@ -1387,15 +1407,16 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
 
             if (count_events_after_11_event >= 3)
             {
-                count_events_after_11_event = 0;
-                dangerous_chemical = false;
-                if (LV_deference == 1)
+                if (LV_deference == 1 && dangerous_chemical)
                 {
                     LV = to_string(std::stoi(LV) + 1);
                     LV_deference = 0;
                 }
-                else LV = to_string(std::stoi(LV) + 2);
+                else if (LV_deference != 1 && dangerous_chemical) 
+                LV = to_string(std::stoi(LV) + 2);
 
+                count_events_after_11_event = 0;
+                dangerous_chemical = false;
                 if (fake_wong && std::stoi(LV) > 7)
                 {
                     fake_wong = false;
@@ -1434,10 +1455,11 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             if (fake_wong && coat_flag)
             {
                 coat_flag = false;
-                // if (invalid_coat)
-                // {
-                //     LV = to_string(std::stoi(LV) - 2);
-                // }
+                fake_coat = true;
+                if (invalid_coat || count_defeat < 3)
+                {
+                    LV = to_string(std::stoi(LV) - 2);
+                }
                 
                 count_fake_wong_fight++;
 
@@ -1463,9 +1485,9 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                     fake_wong = false;
                 }
             }
-            
-            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
-            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+            set_win_information(HP, maxHP, LV, EXP, 0, TS, '0');
+            // cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
 
             index += 2;
         }
@@ -1477,6 +1499,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             if (std::stoi(find_HP_max) <= std::stoi(HP))
             {
                 find_HP_max = HP;
+                HP_15th_event = HP;
                 back_index = index;
                 count_defeat_15th_event = count_defeat;
                 invalid_coat_15th_event = invalid_coat;
@@ -1520,18 +1543,31 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             // {
             //     count_events_after_11_event++;
             // }
+
+
+            // dangerous_chemical = false;
+            // count_events_after_11_event = 0;
+            // if (LV_deference == 1)
+            // {
+            //     LV = to_string(std::stoi(LV) + 1);
+            //     LV_deference = 0;
+            // }
+            // else LV = to_string(std::stoi(LV) + 2);
             HP = maxHP;
-
-
-            dangerous_chemical = false;
-            count_events_after_11_event = 0;
-            if (LV_deference == 1)
+            // if (count_events_after_11_event >= 3)
+            // {
+            if (LV_deference == 1 && dangerous_chemical)
             {
                 LV = to_string(std::stoi(LV) + 1);
                 LV_deference = 0;
             }
-            else LV = to_string(std::stoi(LV) + 2);
-            
+            else if (LV_deference != 1 && dangerous_chemical) 
+            LV = to_string(std::stoi(LV) + 2);
+
+            count_events_after_11_event = 0;
+            dangerous_chemical = false;
+            // }
+
             if (fake_wong)
             {
                 fake_wong = false;
@@ -1544,17 +1580,20 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                 invalid_coat = true;
             }
 
-            if (!coat_flag)
+            if (!coat_flag && fake_coat)
             {
                 coat_flag = true;
+                fake_coat = false;
                 LV = to_string(std::stoi(LV) + 2);
                 if (std::stoi(LV) > 10)
                 {
                     LV = to_string(10);
                 }
             }
-            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
-            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+
+            set_win_information(HP, maxHP, LV, EXP, 0, TS, '0');
+            // cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
             index += 2;
         }
 
@@ -1565,6 +1604,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             if (std::stoi(find_HP_max) <= std::stoi(HP))
             {
                 find_HP_max = HP;
+                HP_15th_event = HP;
                 back_index = index;
                 count_defeat_15th_event = count_defeat;
                 invalid_coat_15th_event = invalid_coat;
@@ -1588,15 +1628,16 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
 
             if (count_events_after_11_event >= 3)
             {
-                count_events_after_11_event = 0;
-                dangerous_chemical = false;
-                if (LV_deference == 1)
+                if (LV_deference == 1 && dangerous_chemical)
                 {
                     LV = to_string(std::stoi(LV) + 1);
                     LV_deference = 0;
                 }
-                else LV = to_string(std::stoi(LV) + 2);
+                else if (LV_deference != 1 && dangerous_chemical) 
+                LV = to_string(std::stoi(LV) + 2);
 
+                count_events_after_11_event = 0;
+                dangerous_chemical = false;
                 if (fake_wong && std::stoi(LV) > 7)
                 {
                     fake_wong = false;
@@ -1612,8 +1653,10 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             {
                 HP = maxHP;
             }
-            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
-            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+
+            set_win_information(HP, maxHP, LV, EXP, 0, TS, '0');
+            // cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
             index += 3;
         }
         else if (events[index] == '1' && events[index + 1] == '1')
@@ -1623,6 +1666,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             if (std::stoi(find_HP_max) <= std::stoi(HP))
             {
                 find_HP_max = HP;
+                HP_15th_event = HP;
                 back_index = index;
                 count_defeat_15th_event = count_defeat;
                 invalid_coat_15th_event = invalid_coat;
@@ -1646,15 +1690,16 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
 
             if (count_events_after_11_event >= 3)
             {
-                count_events_after_11_event = 0;
-                dangerous_chemical = false;
-                if (LV_deference == 1)
+                if (LV_deference == 1 && dangerous_chemical)
                 {
                     LV = to_string(std::stoi(LV) + 1);
                     LV_deference = 0;
                 }
-                else LV = to_string(std::stoi(LV) + 2);
+                else if (LV_deference != 1 && dangerous_chemical) 
+                LV = to_string(std::stoi(LV) + 2);
 
+                count_events_after_11_event = 0;
+                dangerous_chemical = false;
                 if (fake_wong && std::stoi(LV) > 7)
                 {
                     fake_wong = false;
@@ -1794,17 +1839,19 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                 }
             }
 
-            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
-            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+            set_win_information(HP, maxHP, LV, EXP, 0, TS, '0');
+            // cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
             index += 3;
         }
         else if (events[index] == '1' && events[index + 1] == '2')
         {
             count_event++;
-            
+            meet_12nd_event = true;
             if (std::stoi(find_HP_max) <= std::stoi(HP))
             {
                 find_HP_max = HP;
+                HP_15th_event = HP;
                 back_index = index;
                 count_defeat_15th_event = count_defeat;
                 invalid_coat_15th_event = invalid_coat;
@@ -1828,15 +1875,16 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             
             if (count_events_after_11_event >= 3)
             {
-                count_events_after_11_event = 0;
-                dangerous_chemical = false;
-                if (LV_deference == 1)
+                if (LV_deference == 1 && dangerous_chemical)
                 {
                     LV = to_string(std::stoi(LV) + 1);
                     LV_deference = 0;
                 }
-                else LV = to_string(std::stoi(LV) + 2);
+                else if (LV_deference != 1 && dangerous_chemical) 
+                LV = to_string(std::stoi(LV) + 2);
 
+                count_events_after_11_event = 0;
+                dangerous_chemical = false;
                 if (fake_wong && std::stoi(LV) > 7)
                 {
                     fake_wong = false;
@@ -1973,16 +2021,29 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                 {
                     defeat_12nd_event = false;
                     kill_Strange = false;
+                    int HP_temp = int(std::stoi(HP) * 1.0f - std::stoi(HP) * 10 * 1.0f / 100);
                     HP = to_string(int(std::stoi(HP) * 1.0f - std::stoi(HP) * 10 * 1.0f / 100));
                     maxHP = to_string(int(std::stoi(maxHP) * 1.0f - std::stoi(maxHP) * 10 * 1.0f / 100));
-
+                    if (HP_temp <= 0)
+                    {
+                        if (std::stoi(TS) == 0)
+                        {
+                            return -1;
+                        }
+                        else
+                        {
+                            TS = to_string(std::stoi(TS) - 1);
+                            HP = maxHP;
+                        }
+                        
+                    }
                     int exp = 30;
                     set_win_information(HP, maxHP, LV, EXP, exp, TS, '0');
                 }
             }
 
-            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
-            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+            // cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
         }
         else if (events[index] == '1' && events[index + 1] == '3')
         {
@@ -1991,6 +2052,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             if (std::stoi(find_HP_max) <= std::stoi(HP))
             {
                 find_HP_max = HP;
+                HP_15th_event = HP;
                 back_index = index;
                 count_defeat_15th_event = count_defeat;
                 invalid_coat_15th_event = invalid_coat;
@@ -2014,15 +2076,16 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             
             if (count_events_after_11_event >= 3)
             {
-                count_events_after_11_event = 0;
-                dangerous_chemical = false;
-                if (LV_deference == 1)
+                if (LV_deference == 1 && dangerous_chemical)
                 {
                     LV = to_string(std::stoi(LV) + 1);
                     LV_deference = 0;
                 }
-                else LV = to_string(std::stoi(LV) + 2);
+                else if (LV_deference != 1 && dangerous_chemical) 
+                LV = to_string(std::stoi(LV) + 2);
 
+                count_events_after_11_event = 0;
+                dangerous_chemical = false;
                 if (fake_wong && std::stoi(LV) > 7)
                 {
                     fake_wong = false;
@@ -2091,9 +2154,9 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             }
             
 
-            for (int i = 0; i < 7 - m; i++)
+            for (int i = 0; i <= 7 - m; i++)
             {
-                for (int j = 0; j < 7 - m; j++)
+                for (int j = 0; j <= 7 - m; j++)
                 {
                     int min_temp = 0;
                     for (int r = i; r < i + m; r++)
@@ -2135,6 +2198,21 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                 
             }
 
+
+            for (int i = 0; i < 7; i++)
+            {
+                for (int j = 0; j < 7; j++)
+                {
+                    // cout << arr[i][j] << " ";
+                }
+                
+                // cout << endl;
+            }
+            
+            // cout << "Gia tri min matrix: " << min_matrix << endl;
+            // cout << "cot nho nhat: " << col << endl;
+            // cout << "hang nho nhat: " << row << endl;
+
             if (defense_13rd_event)
             {
                 HP = to_string(std::stoi(HP) + min_matrix * (col + row));
@@ -2150,7 +2228,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                 HP = to_string(std::stoi(HP) - min_matrix * (col + row));
                 if (HP_temp <= 0)
                 {
-                    if (!kill_Strange)
+                    if (!kill_Strange && meet_12nd_event)
                     {
                         HP = to_string(1);
                     }
@@ -2168,8 +2246,9 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                 }
                 
             }
-            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
-            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+            set_win_information(HP, maxHP, LV, EXP, 0, TS, '0');
+            // cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
         }
         else if (events[index] == '1' && events[index + 1] == '4')
         {
@@ -2178,6 +2257,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             if (std::stoi(find_HP_max) <= std::stoi(HP))
             {
                 find_HP_max = HP;
+                HP_15th_event = HP;
                 back_index = index;
                 count_defeat_15th_event = count_defeat;
                 invalid_coat_15th_event = invalid_coat;
@@ -2201,15 +2281,16 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             
             if (count_events_after_11_event >= 3)
             {
-                count_events_after_11_event = 0;
-                dangerous_chemical = false;
-                if (LV_deference == 1)
+                if (LV_deference == 1 && dangerous_chemical)
                 {
                     LV = to_string(std::stoi(LV) + 1);
                     LV_deference = 0;
                 }
-                else LV = to_string(std::stoi(LV) + 2);
+                else if (LV_deference != 1 && dangerous_chemical) 
+                LV = to_string(std::stoi(LV) + 2);
 
+                count_events_after_11_event = 0;
+                dangerous_chemical = false;
                 if (fake_wong && std::stoi(LV) > 7)
                 {
                     fake_wong = false;
@@ -2237,8 +2318,14 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
             }
 
             index += 3;
-
-            int true_gate = atoi(events[index]);
+            string true_gate_str = "";
+            while (events[index] != ' ')
+            {
+                true_gate_str += events[index];
+                index++;
+            }
+            
+            int true_gate = atoi(true_gate_str);
             index += 2;
 
             int index_temp = index;
@@ -2323,9 +2410,10 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                     
                 }
             }
-    
-            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
-            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+
+            set_win_information(HP, maxHP, LV, EXP, 0, TS, '0');
+            // cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+            // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
         }
         else if (events[index] == '1' && events[index + 1] == '5')
         {
@@ -2336,15 +2424,16 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                     count_event++;
                     if (count_events_after_11_event >= 3)
                     {
-                        count_events_after_11_event = 0;
-                        dangerous_chemical = false;
-                        if (LV_deference == 1)
+                        if (LV_deference == 1 && dangerous_chemical)
                         {
                             LV = to_string(std::stoi(LV) + 1);
                             LV_deference = 0;
                         }
-                        else LV = to_string(std::stoi(LV) + 2);
+                        else if (LV_deference != 1 && dangerous_chemical) 
+                        LV = to_string(std::stoi(LV) + 2);
 
+                        count_events_after_11_event = 0;
+                        dangerous_chemical = false;
                         if (fake_wong && std::stoi(LV) > 7)
                         {
                             fake_wong = false;
@@ -2382,6 +2471,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         // find_HP_max = HP;
                         // back_index = index;
                         back = true;
+                        // cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+                        // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
                     }
                     else
                     {
@@ -2392,6 +2483,7 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
                         back = true;
                         index = back_index;
 
+                        HP = HP_15th_event;
                         count_defeat = count_defeat_15th_event;
                         invalid_coat = invalid_coat_15th_event;
                         coat_flag = coat_flag_15th_event;
@@ -2409,7 +2501,10 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
 
                         defeat_12nd_event = defeat_12nd_event_15th_event;
                         kill_Strange = kill_Strange_15th_event;
-
+                        
+                        // cout << "ket qua sau cac su kien thu : " << count_event << endl;;
+                        // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+                        
                         continue;
                     }
 
@@ -2421,8 +2516,6 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
 
             
 
-            cout << "ket qua sau cac su kien thu : " << count_event << endl;;
-            cout << HP << " " << LV << " " << EXP << " " << TS << endl;
         }
         
         
@@ -2430,8 +2523,8 @@ int handleEvents(string & HP, string & LV, string & EXP, string & TS, string & e
     
     
     result = std::stoi(HP) + std::stoi(LV) + std::stoi(EXP) + std::stoi(TS);
-    cout << "ket qua cuoi cung: " << endl;
-    cout << HP << " " << LV << " " << EXP << " " << TS << endl;
+    // cout << "ket qua cuoi cung: " << endl;
+    // cout << HP << " " << LV << " " << EXP << " " << TS << endl;
 
 
     return result;
